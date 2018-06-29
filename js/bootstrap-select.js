@@ -330,8 +330,16 @@
         (numGroup == 1) ? 'Group limit reached ({n} item max)' : 'Group limit reached ({n} items max)'
       ];
     },
-    selectAllText: 'Select All',
-    deselectAllText: 'Deselect All',
+    actionButtonLeftText: 'Select All',
+    actionButtonRightText: 'Deselect All',
+    actionButtonLeftAction: function(that) {
+        return that.changeAll(true);
+    },
+    actionButtonRightAction: function (that) {
+          return that.changeAll(false);
+    },                         
+    selectAllText: actionButtonLeftText,
+    deselectAllText: actionButtonRightText,    
     doneButton: false,
     doneButtonText: 'Close',
     multipleSeparator: ', ',
@@ -511,11 +519,15 @@
       var actionsbox = this.multiple && this.options.actionsBox ?
       '<div class="bs-actionsbox">' +
       '<div class="btn-group btn-group-sm btn-block">' +
-      '<button type="button" class="actions-btn bs-select-all btn btn-default">' +
-      this.options.selectAllText +
+      '<button type="button" class="actions-btn bs-action-btn-left btn btn-default">' +
+                                                                                       
+      this.options.actionButtonLeftText +
+                                         
       '</button>' +
-      '<button type="button" class="actions-btn bs-deselect-all btn btn-default">' +
-      this.options.deselectAllText +
+      '<button type="button" class="actions-btn bs-action-btn-right btn btn-default">' +
+                                                                                        
+      this.options.actionButtonRightText +
+                                          
       '</button>' +
       '</div>' +
       '</div>'
@@ -1443,10 +1455,10 @@
         e.preventDefault();
         e.stopPropagation();
 
-        if ($(this).hasClass('bs-select-all')) {
-          that.selectAll();
+        if ($(this).hasClass('bs-action-btn-left')) {
+            that.options.actionButtonLeftAction(that);
         } else {
-          that.deselectAll();
+            that.options.actionButtonRightAction(that);
         }
       });
 
